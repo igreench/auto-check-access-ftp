@@ -61,7 +61,6 @@ int WINAPI initThreads() {
 	}
 
 	WaitForMultipleObjects(THREADS_NUMBER, hThreads, TRUE, INFINITE);
-	//wsprintf(szMessage, TEXT("Counter = %d\r\n"), dwCounter);
 	WriteConsole(hStdOut, szMessage, lstrlen(szMessage), &dwTemp, NULL);
 
 	for(i = 0; i < THREADS_NUMBER; i++) {
@@ -78,8 +77,7 @@ DWORD WINAPI ThreadProc(CONST LPVOID lpParam) {
 			if (ftpConnect->connect()) {
 				cout << "sending good" << endl;
 				HttpRequest Request(L"Example UserAgent/1.0", L"", L"");
-				Request.SendPostRequest(ftpConnect->getGood(), hosts[curHost].getHost()/*L"5.187.7.111"*/, hosts[curHost].getGoods()/*L"/api/goods"*/);
-				//Sleep(1000);
+				Request.SendPostRequest(ftpConnect->getGood(), hosts[curHost].getHost(), hosts[curHost].getGoods());
 			}
 		} else {
 			break;
@@ -101,7 +99,6 @@ VOID Error(CONST HANDLE hStdOut, CONST LPCWSTR szMessage) {
 
 bool initHttpRequest(vector<FTPUserData> *vData) {
 	HttpRequest Request(L"Example UserAgent/1.0", L"", L"");
-    //if (Request.SendRequest(vData, L"5.187.7.111", L"/api/list")) {
 	if (Request.SendRequest(vData, hosts[curHost].getHost(), hosts[curHost].getList())) {
 		return true;
     }
@@ -116,7 +113,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 	vector<FTPUserData> *vData = new vector<FTPUserData>();
 
-	//hosts.push_back(HostData(L"5.187.7.111", L"/api/list", L"/api/goods"));
 	hosts.push_back(HostData(L"lackhite.com", L"/work/ftp3.php", L"/work/post.php"));
 	curHost = 0;
 
@@ -124,17 +120,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (initHttpRequest(vData)) {
 			ftpConnect = new FTPConnect(vData);
 			initThreads();			
-			/*while (true) {
-				if (!ftpConnect->isEmpty()) {
-					if (ftpConnect->connect()) {
-						cout << "sending good" << endl;
-						HttpRequest Request(L"Example UserAgent/1.0", L"", L"");
-						Request.SendPostRequest(ftpConnect->getGood(), L"5.187.7.111", L"/api/goods");
-					}
-				} else {
-					break;
-				}
-			}*/
 			vData->clear();
 		}
 	}
