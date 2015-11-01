@@ -1,8 +1,8 @@
 # auto-check-access-ftp
 Automatic check for access to FTP servers
 
-Input Data Format
+Input Data Format<br>
 \<host\>;\<login\>;\<password\>
-
-For Example
+<br><br>
+For Example<br>
 google.com;admin;admin
