@@ -2,7 +2,7 @@
 Automatic check for access to FTP servers
 
 Input Data Format
-<host>;<login>;<password>
+\<host\>;\<login\>;\<password\>
 
 For Example
 google.com;admin;admin
